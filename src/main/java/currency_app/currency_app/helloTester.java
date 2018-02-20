@@ -16,13 +16,13 @@ public class helloTester {
 
 
     @RequestMapping("/")
-    public List<currency> helloWorld() throws Exception{
-
-        repository.deleteAll();
+    public String helloWorld() throws Exception{
+    //public List<currency> helloWorld() throws Exception{
 
         // save a couple of currencys
         repository.save(new currency("USD", 134.5,new Date().toString()));
         repository.save(new currency("EUR", 114.6,new Date().toString()));
+        repository.save(new currency("LEK", 100.0,new Date().toString()));
 
         // fetch all currencys
         System.out.println("currencys found with findAll():");
@@ -30,14 +30,16 @@ public class helloTester {
         for (currency currency : repository.findAll()) {
             System.out.println(currency);
         }
-        return repository.findByType("USD");
-
+        //return repository.findByType("USD");
+        return "<h3>Our Services</h3><ul>" +
+                "<li><a href=\"/getdata?currency=USD\" >USD values </a></li>"+
+                "<li><a href=\"/getdata?currency=EUR\" >EUR values </a></li>"+
+                "<li><a href=\"/getdata?currency=LEK\" >LEK values </a></li>"+
+                "</ul>";
 
     }
 
-    @RequestMapping(value="greet",method = RequestMethod.GET)
-    public String  greetMe(@RequestParam(value = "name",required = false,defaultValue ="") String name,
-                           @RequestParam(value = "age",required = false,defaultValue = "0" ) Integer age
-                           ){
-        return "Gretings "+name+"! Your age is "+age+"!" ;
+    @RequestMapping(value="getdata",method = RequestMethod.GET)
+    public List<currency>  getdata(@RequestParam(value = "currency",required = false,defaultValue ="LEK") String type){
+        return repository.findByType(type) ;
     }}
