@@ -10,7 +10,7 @@ public class currency {
     private double value;
     private String updateDate;
 
-    public currency(String type,double value,String updateDate){
+    public currency(String type,double value,String updateDate ){
         this.type=type;
         this.value = value;
        this. updateDate= updateDate;

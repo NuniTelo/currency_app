@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
+import java.util.Objects;
 
 @RestController
 public class helloTester {
@@ -15,31 +18,67 @@ public class helloTester {
     CurrencyRepository repository ;
 
 
+
     @RequestMapping("/")
     public String helloWorld() throws Exception{
     //public List<currency> helloWorld() throws Exception{
-
-        // save a couple of currencys
-        repository.save(new currency("USD", 134.5,new Date().toString()));
-        repository.save(new currency("EUR", 114.6,new Date().toString()));
-        repository.save(new currency("LEK", 100.0,new Date().toString()));
-
-        // fetch all currencys
-        System.out.println("currencys found with findAll():");
-        System.out.println("-------------------------------");
-        for (currency currency : repository.findAll()) {
-            System.out.println(currency);
-        }
-        //return repository.findByType("USD");
+        repository.deleteAll();
         return "<h3>Our Services</h3><ul>" +
-                "<li><a href=\"/getdata?currency=USD\" >USD values </a></li>"+
-                "<li><a href=\"/getdata?currency=EUR\" >EUR values </a></li>"+
-                "<li><a href=\"/getdata?currency=LEK\" >LEK values </a></li>"+
+                "<li><a href=\"/getdata?first_currency=USD&second_currency=LEK\" >USD values to LEK </a></li>"+
+                "<li><a href=\"/getdata?currency=EUR&second_currency=LEK\" >EUR values to LEK </a></li>"+
+                "<li><a href=\"/getdata?currency=LEK&second_currency=EUR\" >LEK values to EUR </a></li>"+
+                "<li><a href=\"/getdata?currency=LEK&second_currency=USD\" >LEK values to USD </a></li>"+
+                "<li><a href=\"/getdata?currency=USD&second_currency=EUR\" >USD values to EUR</a></li>"+
+                "<li><a href=\"/getdata?currency=EUR&second_currency=USD\" >EUR values to USD</a></li>"+
                 "</ul>";
 
     }
 
     @RequestMapping(value="getdata",method = RequestMethod.GET)
-    public List<currency>  getdata(@RequestParam(value = "currency",required = false,defaultValue ="LEK") String type){
-        return repository.findByType(type) ;
-    }}
+    public List<currency>  getdata(@RequestParam(value = "first_currency",required = false,defaultValue ="LEK") String type1,
+                                   @RequestParam(value = "second_currency",required = false,defaultValue ="EUR") String type2
+                                   ){
+        List <currency>listType1 = repository.findByTypeOrderByUpdateDateDesc(type1) ;
+        List <currency>listType2 = repository.findByTypeOrderByUpdateDateDesc(type2) ;
+        List <currency> finallist = new ArrayList<>() ;
+        for(int j=0;j<listType1.size()-1;j++){
+            currency a= new currency("merge",listType1.get(j).getValue()/listType2.get(j).getValue()*100,listType1.get(j).getUpdateDate());
+            finallist.add(a);
+        }
+        return  finallist;
+    }
+
+    @RequestMapping(value="getlast",method = RequestMethod.GET)
+    public currency  getlast(@RequestParam(value = "first_currency",required = false,defaultValue ="LEK") String type1,
+                             @RequestParam(value = "second_currency",required = false,defaultValue ="EUR") String type2
+                             ){
+
+        if (repository.findByTypeOrderByUpdateDateDesc(type1).size()>=50)
+            repository.deleteTopByOrderByUpdateDateAsc();
+        if (repository.findByTypeOrderByUpdateDateDesc(type1).size()>=50)
+            repository.deleteTopByOrderByUpdateDateAsc();
+            double def1 ;double def2 ; double vl1 ; double vl2 ;
+        if (type1=="USD") def1=1.1;
+            else if (type1=="EUR") def1=1.3;
+            else def1=1.0;
+        if (type2=="USD") def2=1.1;
+            else if (type2=="EUR") def2=1.3;
+            else def2=1.0;
+
+            if(Math.floor(Math.random()*10)%2==0) {
+                vl1 = Math.random() * 0.05 + def1;
+                vl2 = def2- Math.random() * 0.01;
+            }
+            else{
+                vl1 =def1- Math.random()*0.05;
+                vl2 = Math.random() * 0.01 + def2;
+            }
+            currency crs1 = new currency(type1,vl1*100, Objects.toString(new Date().getTime(), null) );
+            currency crs2 = new currency(type2,vl2*100, Objects.toString(new Date().getTime(), null) );
+            repository.save(crs1);
+            repository.save(crs2);
+
+        return new currency("merge",vl1/vl2*100,Objects.toString(new Date().getTime(), null)) ;
+    }
+
+}
