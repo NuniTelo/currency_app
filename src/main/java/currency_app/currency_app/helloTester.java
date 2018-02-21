@@ -1,9 +1,6 @@
 package currency_app.currency_app;
 
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -33,7 +30,7 @@ public class helloTester {
                 "</ul>";
 
     }
-
+    @CrossOrigin
     @RequestMapping(value="getdata",method = RequestMethod.GET)
     public List<currency>  getdata(@RequestParam(value = "first_currency",required = false,defaultValue ="LEK") String type1,
                                    @RequestParam(value = "second_currency",required = false,defaultValue ="EUR") String type2
@@ -48,6 +45,7 @@ public class helloTester {
         return  finallist;
     }
 
+    @CrossOrigin
     @RequestMapping(value="getlast",method = RequestMethod.GET)
     public currency  getlast(@RequestParam(value = "first_currency",required = false,defaultValue ="LEK") String type1,
                              @RequestParam(value = "second_currency",required = false,defaultValue ="EUR") String type2
