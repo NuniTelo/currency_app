@@ -22,7 +22,7 @@ public class helloTester {
     @RequestMapping("/")
     public String helloWorld() throws Exception{
     //public List<currency> helloWorld() throws Exception{
-        repository.deleteAll();
+        //repository.deleteAll();
         return "<h3>Our Services</h3><ul>" +
                 "<li><a href=\"/getdata?first_currency=USD&second_currency=LEK\" >USD values to LEK </a></li>"+
                 "<li><a href=\"/getdata?currency=EUR&second_currency=LEK\" >EUR values to LEK </a></li>"+
