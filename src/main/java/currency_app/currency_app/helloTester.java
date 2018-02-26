@@ -64,11 +64,11 @@ public class helloTester {
             else def2=1.0;
 
             if(Math.floor(Math.random()*10)%2==0) {
-                vl1 = Math.random() * 0.05 + def1;
+                vl1 = Math.random() * 0.01 + def1;
                 vl2 = def2;
             }
             else{
-                vl1 =def1- Math.random()*0.05;
+                vl1 =def1- Math.random()*0.01;
                 vl2 =  def2;
             }
             currency crs1 = new currency(type1,vl1*100, Objects.toString(new Date().getTime(), null) );
