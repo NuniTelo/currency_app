@@ -40,7 +40,7 @@ public class helloTester {
         List <currency>listType2 = repository.findByTypeOrderByUpdateDateDesc(type2) ;
         List <currency> finallist = new ArrayList<>() ;
         for(int j=0;j<listType1.size()-1;j++){
-            currency a= new currency("merge",listType1.get(j).getValue()/listType2.get(j).getValue()*100, format.format(listType1.get(j).getUpdateDate()).toString());
+            currency a= new currency("merge",listType1.get(j).getValue()/listType2.get(j).getValue()*100, format.format(Long.parseLong(listType1.get(j).getUpdateDate())));
             finallist.add(a);
         }
         return  finallist;
