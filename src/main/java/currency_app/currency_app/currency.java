@@ -1,11 +1,14 @@
 package currency_app.currency_app;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
 @Document(collection = "currency")
 public class currency {
+    @Id
+    private String  id ;
     private String type;
     private double value;
     private String updateDate;
@@ -38,7 +41,9 @@ public class currency {
     public void setUpdateDate(String updateDate) {
         this.updateDate = updateDate;
     }
-
+    public String getId() {
+        return this.id;
+    }
     @Override
     public String toString(){
         return "type:"+this.type+" value:"+this.value+" update Time:"+this.updateDate;

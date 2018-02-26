@@ -53,9 +53,9 @@ public class helloTester {
 
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         if (repository.findByTypeOrderByUpdateDateDesc(type1).size()>=50)
-            repository.deleteFirstByTypeOrderByUpdateDateAsc(type1);
+            repository.deleteById(repository.findFirstByTypeOrderByUpdateDateAsc(type1).getId());
         if (repository.findByTypeOrderByUpdateDateDesc(type2).size()>=50)
-            repository.deleteFirstByTypeOrderByUpdateDateAsc(type2);
+            repository.deleteById(repository.findFirstByTypeOrderByUpdateDateAsc(type2).getId());
             double def1 ;double def2 ; double vl1 ; double vl2 ;
         if (type1=="USD") def1=1.1;
             else if (type1=="EUR") def1=1.3;
