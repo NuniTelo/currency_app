@@ -65,11 +65,11 @@ public class helloTester {
 
             if(Math.floor(Math.random()*10)%2==0) {
                 vl1 = Math.random() * 0.05 + def1;
-                vl2 = def2- Math.random() * 0.01;
+                vl2 = def2;
             }
             else{
                 vl1 =def1- Math.random()*0.05;
-                vl2 = Math.random() * 0.01 + def2;
+                vl2 =  def2;
             }
             currency crs1 = new currency(type1,vl1*100, Objects.toString(new Date().getTime(), null) );
             currency crs2 = new currency(type2,vl2*100, Objects.toString(new Date().getTime(), null) );
