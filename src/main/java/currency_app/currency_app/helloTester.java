@@ -3,11 +3,9 @@ package currency_app.currency_app;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 public class helloTester {
@@ -36,11 +34,13 @@ public class helloTester {
     public List<currency>  getdata(@RequestParam(value = "first_currency",required = false,defaultValue ="LEK") String type1,
                                    @RequestParam(value = "second_currency",required = false,defaultValue ="EUR") String type2
                                    ){
+
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         List <currency>listType1 = repository.findByTypeOrderByUpdateDateDesc(type1) ;
         List <currency>listType2 = repository.findByTypeOrderByUpdateDateDesc(type2) ;
         List <currency> finallist = new ArrayList<>() ;
         for(int j=0;j<listType1.size()-1;j++){
-            currency a= new currency("merge",listType1.get(j).getValue()/listType2.get(j).getValue()*100, new Date(listType1.get(j).getUpdateDate()).toString() );
+            currency a= new currency("merge",listType1.get(j).getValue()/listType2.get(j).getValue()*100, format.format(listType1.get(j).getUpdateDate()).toString());
             finallist.add(a);
         }
         return  finallist;
@@ -52,6 +52,7 @@ public class helloTester {
                              @RequestParam(value = "second_currency",required = false,defaultValue ="EUR") String type2
                              ){
 
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         if (repository.findByTypeOrderByUpdateDateDesc(type1).size()>=50)
             repository.deleteTopByOrderByUpdateDateAsc();
         if (repository.findByTypeOrderByUpdateDateDesc(type1).size()>=50)
@@ -77,7 +78,7 @@ public class helloTester {
             repository.save(crs1);
             repository.save(crs2);
 
-        return new currency("merge",vl1/vl2*100,Objects.toString(new Date (new Date().getTime()))) ;
+        return new currency("merge",vl1/vl2*100,Objects.toString(format.format(new Date().getTime()))) ;
     }
 
 }
