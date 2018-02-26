@@ -3,6 +3,7 @@ package currency_app.currency_app;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -39,7 +40,7 @@ public class helloTester {
         List <currency>listType2 = repository.findByTypeOrderByUpdateDateDesc(type2) ;
         List <currency> finallist = new ArrayList<>() ;
         for(int j=0;j<listType1.size()-1;j++){
-            currency a= new currency("merge",listType1.get(j).getValue()/listType2.get(j).getValue()*100,listType1.get(j).getUpdateDate());
+            currency a= new currency("merge",listType1.get(j).getValue()/listType2.get(j).getValue()*100, new Date(listType1.get(j).getUpdateDate()).toString() );
             finallist.add(a);
         }
         return  finallist;
@@ -76,7 +77,7 @@ public class helloTester {
             repository.save(crs1);
             repository.save(crs2);
 
-        return new currency("merge",vl1/vl2*100,Objects.toString(new Date().getTime(), null)) ;
+        return new currency("merge",vl1/vl2*100,Objects.toString(new Date (new Date().getTime()))) ;
     }
 
 }
