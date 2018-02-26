@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface CurrencyRepository extends MongoRepository<currency,String>{
     public List <currency> findByTypeOrderByUpdateDateDesc(String type);
     public currency findTopByOrderByUpdateDateDesc(String type);
-    public currency deleteTopByOrderByUpdateDateAsc();
+    public currency deleteTop1ByOrderByUpdateDateAsc();
 
 }

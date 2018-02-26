@@ -17,8 +17,7 @@ public class helloTester {
 
     @RequestMapping("/")
     public String helloWorld() throws Exception{
-    //public List<currency> helloWorld() throws Exception{
-        //repository.deleteAll();
+
         return "<h3>Our Services</h3><ul>" +
                 "<li><a href=\"/getdata?first_currency=USD&second_currency=LEK\" >USD values to LEK </a></li>"+
                 "<li><a href=\"/getdata?currency=EUR&second_currency=LEK\" >EUR values to LEK </a></li>"+
@@ -54,9 +53,9 @@ public class helloTester {
 
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         if (repository.findByTypeOrderByUpdateDateDesc(type1).size()>=50)
-            repository.deleteTopByOrderByUpdateDateAsc();
+            repository.deleteTop1ByOrderByUpdateDateAsc();
         if (repository.findByTypeOrderByUpdateDateDesc(type1).size()>=50)
-            repository.deleteTopByOrderByUpdateDateAsc();
+            repository.deleteTop1ByOrderByUpdateDateAsc();
             double def1 ;double def2 ; double vl1 ; double vl2 ;
         if (type1=="USD") def1=1.1;
             else if (type1=="EUR") def1=1.3;
