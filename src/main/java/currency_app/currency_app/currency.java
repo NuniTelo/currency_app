@@ -3,8 +3,7 @@ package currency_app.currency_app;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
-import java.text.SimpleDateFormat;
+
 @Document(collection = "currency")
 public class currency {
     @Id
